@@ -1,31 +1,9 @@
-#[[
-
-This file is part of OpenFlightController.
-
-Copyright (C) 2017 waicool20 <waicool20@gmail.com>
-Copyright (C) 2017-2018 Derppening <david.18.19.21@gmail.com>
-
-OpenFlightController is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-OpenFlightController is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with OpenFlightController.  If not, see <http://www.gnu.org/licenses/>.
-
-]]
-
 cmake_minimum_required(VERSION 3.9)
-project(OpenFlightController)
+project(IntelliFlight)
 
 # Include an error in case the user forgets to specify ARM as a toolchain
 if (NOT CMAKE_TOOLCHAIN_FILE)
-    message(FATAL_ERROR "Cross compiling only. Please use -DCMAKE_TOOLCHAIN_FILE=rtlib/cmake/arm-toolchain.cmake or use\
+    message(FATAL_ERROR "Cross compiling only. Please use -DCMAKE_TOOLCHAIN_FILE=cmake/arm-toolchain.cmake or use\
     your own toolchain file")
 endif ()
 

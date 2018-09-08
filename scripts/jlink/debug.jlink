@@ -1,5 +1,5 @@
 h
-loadbin RTLib_Debug.bin, 0x08000000
+loadbin IntelliFlight_Debug.bin, 0x08000000
 r
 g
 q

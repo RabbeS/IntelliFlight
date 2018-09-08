@@ -1,25 +1,3 @@
-#[[
-
-This file is part of OpenFlightController.
-
-Copyright (C) 2017 waicool20 <waicool20@gmail.com>
-Copyright (C) 2018 Derppening <david.18.19.21@gmail.com>
-
-OpenFlightController is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-OpenFlightController is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with OpenFlightController.  If not, see <http://www.gnu.org/licenses/>.
-
-]]
-
 # Originally painfully written by waicool20 :)
 
 # Utility
@@ -33,7 +11,7 @@ endfunction()
 # -----------
 
 # LibOpenCM3 Stuff
-find_file(LIBOPENCM3_DIR "libopencm3" "${CMAKE_CURRENT_SOURCE_DIR}" PATH_SUFFXIES "RTLib")
+find_file(LIBOPENCM3_DIR "libopencm3" "${CMAKE_CURRENT_SOURCE_DIR}")
 if (LIBOPENCM3_DIR STREQUAL "LIBOPENCM3_DIR-NOTFOUND")
     message(FATAL_ERROR "Could not locate libopencm3 directory")
 endif ()
@@ -174,7 +152,7 @@ macro(add_executable _name)
         set_target_properties(${ARGV0} PROPERTIES LINK_FLAGS ${LINKER_FLAGS})
         set_target_properties(${PROJECT_NAME}.elf PROPERTIES OUTPUT_NAME "${PROJECT_NAME}_${CMAKE_BUILD_TYPE}.elf")
         target_link_libraries(${_name} "opencm3_${GENLINK_FAMILY}")
-        set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "../build/RTLib_${CMAKE_BUILD_TYPE}.bin")
+        set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "../build/${PROJECT_NAME}_${CMAKE_BUILD_TYPE}.bin")
 
         # Set output file locations
         string(REGEX MATCH "^(.*)\\.[^.]*$" dummy "${ARGV0}")

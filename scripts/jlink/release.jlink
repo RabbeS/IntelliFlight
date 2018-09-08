@@ -1,5 +1,5 @@
 h
-loadbin RTLib_Release.bin, 0x08000000
+loadbin IntelliFlight_Release.bin, 0x08000000
 r
 g
 q

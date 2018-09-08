@@ -1,24 +1,3 @@
-#[[
-
-This file is part of OpenFlightController.
-
-Copyright (C) 2017-2018 Derppening <david.18.19.21@gmail.com>
-
-OpenFlightController is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-OpenFlightController is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with OpenFlightController.  If not, see <http://www.gnu.org/licenses/>.
-
-]]
-
 # Enforce C/C++ standard level
 set(CMAKE_C_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
@@ -85,15 +64,6 @@ set(CMAKE_C_FLAGS_MINSIZEREL "-Os")
 set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os")
 set(CMAKE_C_FLAGS_RELWITHDEBINFO "-Og")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Og")
-
-## Collect sources and includes
-#find_file(SRC "src" PATHS "${CMAKE_CURRENT_SOURCE_DIR}/RTLib" "${CMAKE_CURRENT_SOURCE_DIR}")
-#if (SRC STREQUAL "SRC-NOTFOUND")
-#    message(FATAL_ERROR "Could not find RTLib sources")
-#endif ()
-#
-#file(GLOB_RECURSE RTLIB_SOURCE_FILES "${SRC}/*.c" "${SRC}/*.cpp")
-#include_directories(${SRC})
 
 # Dump all the flags at this point
 if (LOG_VERBOSE)
