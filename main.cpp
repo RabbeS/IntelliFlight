@@ -2,65 +2,120 @@
 #include <libopencm3/stm32/timer.h>
 #include <libopencm3/stm32/gpio.h>
 
-static void clockSetup();
-static void gpioInit();
-static void timerInit();
-void tim2_isr();
+static void gpioSetup(void);
+static void timerSetup(void);
 
 int main(void) {
-  clockSetup();
-  gpioInit();
-  timerInit();
-
-  while (true) {
-  }
+    gpioSetup();
+    timerSetup();
+    while (true) {
+        for (int i = 0; i < 5000000; i++) {}
+    }
 }
 
-static void clockSetup() {
-  rcc_clock_setup_hsi(&rcc_3v3[RCC_CLOCK_3V3_72MHZ]);
+static void gpioSetup(void){
+    
 }
 
-static void gpioInit() {
-  rcc_periph_clock_enable(RCC_GPIOE);
-  gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO13);
-  gpio_set_af(GPIOE, GPIO_AF1, GPIO13);
-  gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_100MHZ, GPIO13);
-}
+static void timerSetup(void) {
+    /** Timer 1 (Ch 1234) Setup */
+    /*Setup GPIO pins for used by the timer*/
+    rcc_periph_clock_enable(RCC_GPIOE);
+    gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO9 | GPIO11 | GPIO13 | GPIO14);
+    gpio_set_af(GPIOE, GPIO_AF1, GPIO9 | GPIO11 | GPIO13 | GPIO14);
+    gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO9 | GPIO11 | GPIO13 | GPIO14);
 
-void timerInit() {
-  rcc_periph_clock_enable(RCC_TIM1);
-  rcc_periph_reset_pulse(RST_TIM1);
+    rcc_periph_clock_enable(RCC_TIM1);
+    timer_set_mode(TIM1, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_CENTER_1,
+                   TIM_CR1_DIR_UP);
 
-  timer_set_mode(
-      TIM1,
-      TIM_CR1_CKD_CK_INT,
-      TIM_CR1_CMS_EDGE,
-      TIM_CR1_DIR_UP
-  );
-//  timer_direction_up(TIM1);
-//  timer_set_clock_division(TIM1, 0);
+    timer_set_oc_mode(TIM1, TIM_OC1, TIM_OCM_PWM1);
+    timer_set_oc_mode(TIM1, TIM_OC2, TIM_OCM_PWM1);
+    timer_set_oc_mode(TIM1, TIM_OC3, TIM_OCM_PWM1);
+    timer_set_oc_mode(TIM1, TIM_OC4, TIM_OCM_PWM1);
+    timer_enable_oc_output(TIM1, TIM_OC1);
+    timer_enable_oc_output(TIM1, TIM_OC2);
+    timer_enable_oc_output(TIM1, TIM_OC3);
+    timer_enable_oc_output(TIM1, TIM_OC4);
+    timer_enable_break_main_output(TIM1);
 
-  timer_set_prescaler(TIM1, ((rcc_apb1_frequency * 2) / 5000));
+    /*The timer_set_oc_value function can be omitted here*/
+//    timer_set_oc_value(TIM1, TIM_OC1, 2000);
+//    timer_set_oc_value(TIM1, TIM_OC2, 2000);
+//    timer_set_oc_value(TIM1, TIM_OC3, 2000);
+//    timer_set_oc_value(TIM1, TIM_OC4, 2000);
+    timer_set_period(TIM1, ((rcc_apb1_frequency * 2) / 500000));
+    timer_enable_counter(TIM1);
 
-  timer_disable_preload(TIM1);
-  timer_continuous_mode(TIM1);
+    /** Timer 2 (Ch34) Setup */
+    /*Setup GPIO pins for used by the timer*/
+    rcc_periph_clock_enable(RCC_GPIOB);
+    gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO10 | GPIO11);
+    gpio_set_af(GPIOB, GPIO_AF1, GPIO10 | GPIO11);
+    gpio_set_output_options(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO10 | GPIO11);
 
-  timer_set_period(TIM1, 65535); // Periodendauer
-  timer_set_oc_value(TIM1, TIM_OC3, 32767); // Ausschlag: Schwellenwert
 
-//  timer_set_repetition_counter(TIM1, 0);
-//  timer_enable_compare_control_update_on_trigger(TIM1_CCR3);
+    rcc_periph_clock_enable(RCC_TIM2);
+    timer_set_mode(TIM2, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_CENTER_1,
+                   TIM_CR1_DIR_UP);
 
-  /*There is some code about oc preloade etc.*/
+    timer_set_oc_mode(TIM2, TIM_OC3, TIM_OCM_PWM1);
+    timer_set_oc_mode(TIM2, TIM_OC4, TIM_OCM_PWM1);
+    timer_enable_oc_output(TIM2, TIM_OC3);
+    timer_enable_oc_output(TIM2, TIM_OC4);
+    timer_enable_break_main_output(TIM2);
 
-  timer_enable_counter(TIM1);
+    /*The timer_set_oc_value function can be omitted here*/
+//    timer_set_oc_value(TIM2, TIM_OC3, 2000);
+//    timer_set_oc_value(TIM2, TIM_OC4, 2000);
+    timer_set_period(TIM2, ((rcc_apb1_frequency * 2) / 500000));
+    timer_enable_counter(TIM2);
 
-  timer_enable_irq(TIM1, TIM_DIER_CC3IE);
-}
+    /** Timer 3 (Ch34) Setup */
+    /*Setup GPIO pins for used by the timer*/
+    rcc_periph_clock_enable(RCC_GPIOB);
+    gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO0 | GPIO1);
+    gpio_set_af(GPIOB, GPIO_AF2, GPIO0 | GPIO1);
+    gpio_set_output_options(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO0 | GPIO1);
 
-void tim2_isr(){
-  if(timer_get_flag(TIM1, TIM_SR_CC3IF)){
-    timer_clear_flag(TIM1, TIM_SR_CC3IF);
-    gpio_toggle(GPIOE, GPIO13);
-  }
+
+    rcc_periph_clock_enable(RCC_TIM3);
+    timer_set_mode(TIM3, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_CENTER_1,
+                   TIM_CR1_DIR_UP);
+
+    timer_set_oc_mode(TIM3, TIM_OC3, TIM_OCM_PWM1);
+    timer_set_oc_mode(TIM3, TIM_OC4, TIM_OCM_PWM1);
+    timer_enable_oc_output(TIM3, TIM_OC3);
+    timer_enable_oc_output(TIM3, TIM_OC4);
+    timer_enable_break_main_output(TIM3);
+
+    /*The timer_set_oc_value function can be omitted here*/
+//    timer_set_oc_value(TIM3, TIM_OC3, 2000);
+//    timer_set_oc_value(TIM3, TIM_OC4, 2000);
+    timer_set_period(TIM3, ((rcc_apb1_frequency * 2) / 500000));
+    timer_enable_counter(TIM3);
+
+    /** Timer 4 (Ch34) Setup */
+    /*Setup GPIO pins for used by the timer*/
+    rcc_periph_clock_enable(RCC_GPIOD);
+    gpio_mode_setup(GPIOD, GPIO_MODE_AF, GPIO_OTYPE_PP, GPIO14 | GPIO15);
+    gpio_set_af(GPIOD, GPIO_AF2, GPIO14 | GPIO15);
+    gpio_set_output_options(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO14 | GPIO15);
+
+
+    rcc_periph_clock_enable(RCC_TIM4);
+    timer_set_mode(TIM4, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_CENTER_1,
+                   TIM_CR1_DIR_UP);
+
+    timer_set_oc_mode(TIM4, TIM_OC3, TIM_OCM_PWM1);
+    timer_set_oc_mode(TIM4, TIM_OC4, TIM_OCM_PWM1);
+    timer_enable_oc_output(TIM4, TIM_OC3);
+    timer_enable_oc_output(TIM4, TIM_OC4);
+    timer_enable_break_main_output(TIM4);
+
+    /*The timer_set_oc_value function can be omitted here*/
+//    timer_set_oc_value(TIM4, TIM_OC3, 2000);
+//    timer_set_oc_value(TIM4, TIM_OC4, 2000);
+    timer_set_period(TIM4, ((rcc_apb1_frequency * 2) / 500000));
+    timer_enable_counter(TIM4);
 }
