@@ -20,6 +20,7 @@ static void timerSetup(void) {
     gpio_set_af(GPIOE, GPIO_AF1, GPIO9 | GPIO11 | GPIO13 | GPIO14);
     gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO9 | GPIO11 | GPIO13 | GPIO14);
 
+    /*Setup of the timer it selve*/
     rcc_periph_clock_enable(RCC_TIM1);
     timer_set_mode(TIM1, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_CENTER_1,
                    TIM_CR1_DIR_UP);
@@ -49,7 +50,7 @@ static void timerSetup(void) {
     gpio_set_af(GPIOB, GPIO_AF1, GPIO10 | GPIO11);
     gpio_set_output_options(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO10 | GPIO11);
 
-
+    /*Setup of the timer it selve*/
     rcc_periph_clock_enable(RCC_TIM2);
     timer_set_mode(TIM2, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_CENTER_1,
                    TIM_CR1_DIR_UP);
@@ -73,7 +74,7 @@ static void timerSetup(void) {
     gpio_set_af(GPIOB, GPIO_AF2, GPIO0 | GPIO1);
     gpio_set_output_options(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO0 | GPIO1);
 
-
+    /*Setup of the timer it selve*/
     rcc_periph_clock_enable(RCC_TIM3);
     timer_set_mode(TIM3, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_CENTER_1,
                    TIM_CR1_DIR_UP);
@@ -97,7 +98,7 @@ static void timerSetup(void) {
     gpio_set_af(GPIOD, GPIO_AF2, GPIO14 | GPIO15);
     gpio_set_output_options(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO14 | GPIO15);
 
-
+    /*Setup of the timer it selve*/
     rcc_periph_clock_enable(RCC_TIM4);
     timer_set_mode(TIM4, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_CENTER_1,
                    TIM_CR1_DIR_UP);
