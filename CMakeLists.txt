@@ -45,7 +45,7 @@ file(GLOB_RECURSE INC_FILES "src/*.h" "src/*.tpp")
 include_directories(src)
 
 # Specify output executable
-add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES})
+add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES} src/timer.h src/gpio.h)
 
 # Output elf file size
 add_custom_command(
