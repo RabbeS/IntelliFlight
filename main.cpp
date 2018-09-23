@@ -1,12 +1,8 @@
-
-//#include <stdint.h>
 #include <setjmp.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/usart.h>
 #include <libopencm3/stm32/f7/nvic.h>
-//#include <libopencm3/stm32/iwdg.h>
-//#include <libopencm3/cm3/scb.h>
 #include <libopencm3/cm3/systick.h>
 #include "main.h"
 
