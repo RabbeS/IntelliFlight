@@ -1,6 +1,7 @@
 #ifndef INTELLIFLIGHT_GPIO_H
 #define INTELLIFLIGHT_GPIO_H
 
+#include <stdint.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 

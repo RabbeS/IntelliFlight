@@ -1,3 +1,7 @@
+#ifndef INTELLIFLIGHT_USART_H
+#define INTELLIFLIGHT_USART_H
+
+#include <stdint.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/usart.h>
@@ -126,3 +130,5 @@ void uart7_isr(void) {
 void uart8_isr(void) {
 
 }
+
+#endif //INTELLIFLIGHT_USART_H

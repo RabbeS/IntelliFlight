@@ -1,6 +1,7 @@
 #ifndef INTELLIFLIGHT_TIMER_H
 #define INTELLIFLIGHT_TIMER_H
 
+#include <stdint.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/timer.h>
