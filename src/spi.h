@@ -53,7 +53,8 @@ static void spiSetup(void){
 
     rcc_periph_clock_enable(RCC_SPI2);
 
-    cr_tmp = SPI_CR1_BAUDRATE_FPCLK_DIV_8 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
+    spi_set_dff_16bit(SPI2);
+    cr_tmp = SPI_CR1_BAUDRATE_FPCLK_DIV_32 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
 
     SPI_CR2(SPI2) |= SPI_CR2_SSOE;
     SPI_CR1(SPI2) = cr_tmp;
@@ -78,7 +79,9 @@ static void spiSetup(void){
 
     rcc_periph_clock_enable(RCC_SPI4);
 
+    spi_set_dff_16bit(SPI4);
     cr_tmp = SPI_CR1_BAUDRATE_FPCLK_DIV_8 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
+    cr_tmp |= SPI_CR1_MSBFIRST;
 
     SPI_CR2(SPI4) |= SPI_CR2_SSOE;
     SPI_CR1(SPI4) = cr_tmp;

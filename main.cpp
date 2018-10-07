@@ -12,13 +12,28 @@ int main(void) {
     timerSetup();
     spiSetup();
 //    uartSetup();
+    uint16_t rawTemperature = 0x00;
     while (true) {
-        for (int i = 0; i < 500000; i++) {}
-        gpio_toggle(GPIOC, GPIO13);
+        //TODO: Why does the BMP280 don't accept 0xF1 or 0xF2 in the register F4?
+        gpio_clear(GPIOA, GPIO2);
+        spi_send(SPI4, 0xF374);
+        rawTemperature=spi_read(SPI4);
+        gpio_set(GPIOA, GPIO2);
 
-        gpio_clear(GPIOD, GPIO13);
-        spi_send(SPI2, 15);
-        gpio_set(GPIOD, GPIO13);
+        gpio_clear(GPIOA, GPIO2);
+        spi_send(SPI4, 0xF4);
+        rawTemperature=spi_read(SPI4);
+        gpio_set(GPIOA, GPIO2);
+
+        gpio_clear(GPIOA, GPIO2);
+        spi_send(SPI4, 0xD0);
+        rawTemperature=spi_read(SPI4);
+        gpio_set(GPIOA, GPIO2);
+
+
+//        gpio_clear(GPIOD, GPIO13);
+//        spi_send(SPI2, 0xF511);
+//        gpio_set(GPIOD, GPIO13);
     }
 }
 
