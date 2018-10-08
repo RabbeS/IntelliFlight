@@ -7,33 +7,65 @@
 #include "src/usart.h"
 #include "src/spi.h"
 
+unsigned short dig_T1;
+signed short dig_T2;
+signed short dig_T3;
+
+// Returns temperature in DegC, resolution is 0.01 DegC. Output value of “5123” equals 51.23 DegC.
+// t_fine carries fine temperature as global value
+uint16_t bmp280_compensate_T_int32(uint16_t adc_T) {
+    uint16_t t_fine;
+    uint16_t var1, var2, T;
+    var1 = ((((adc_T >> 3) - ((uint16_t) dig_T1 << 1))) * ((uint16_t) dig_T2)) >> 11;
+    var2 = (((((adc_T >> 4) - ((uint16_t) dig_T1)) * ((adc_T >> 4) - ((uint16_t) dig_T1))) >> 12) * ((uint16_t) dig_T3))
+            >> 14;
+    t_fine = var1 + var2;
+    T = (t_fine * 5 + 128) >> 8;
+    return T;
+}
+
 int main(void) {
     gpioSetup();
     timerSetup();
     spiSetup();
 //    uartSetup();
-    uint16_t rawTemperature = 0x00;
+
+        gpio_clear(GPIOA, GPIO2);
+        spi_send(SPI4, 0xEB74);
+//    rawTemperature=spi_read(SPI4);
+        gpio_set(GPIOA, GPIO2);
+
+        gpio_clear(GPIOA, GPIO2);
+        spi_send(SPI4, 0x3C75);
+//    rawTemperature=spi_read(SPI4);
+        gpio_set(GPIOA, GPIO2);
+
+    uint16_t rawTemperature = 0x0;
+    uint16_t temperature = 0x0;
+
     while (true) {
-        //TODO: Why does the BMP280 don't accept 0xF1 or 0xF2 in the register F4?
-        gpio_clear(GPIOA, GPIO2);
-        spi_send(SPI4, 0xF374);
-        rawTemperature=spi_read(SPI4);
-        gpio_set(GPIOA, GPIO2);
+//TODO: Write the temperature calculation methode
+//        gpio_clear(GPIOA, GPIO2);
+//        spi_send(SPI4, 0x89);
+//        dig_T1 = spi_read(SPI4);
+//        gpio_set(GPIOA, GPIO2);
+//
+//        gpio_clear(GPIOA, GPIO2);
+//        spi_send(SPI4, 0x8B);
+//        dig_T2 = spi_read(SPI4);
+//        gpio_set(GPIOA, GPIO2);
+//
+//        gpio_clear(GPIOA, GPIO2);
+//        spi_send(SPI4, 0x8D);
+//        dig_T3 = spi_read(SPI4);
+//        gpio_set(GPIOA, GPIO2);
 
         gpio_clear(GPIOA, GPIO2);
-        spi_send(SPI4, 0xF4);
-        rawTemperature=spi_read(SPI4);
+        spi_send(SPI4, 0xFA);
+        rawTemperature = spi_read(SPI4);
         gpio_set(GPIOA, GPIO2);
 
-        gpio_clear(GPIOA, GPIO2);
-        spi_send(SPI4, 0xD0);
-        rawTemperature=spi_read(SPI4);
-        gpio_set(GPIOA, GPIO2);
-
-
-//        gpio_clear(GPIOD, GPIO13);
-//        spi_send(SPI2, 0xF511);
-//        gpio_set(GPIOD, GPIO13);
+//        temperature = bmp280_compensate_T_int32(rawTemperature);
     }
 }
 
