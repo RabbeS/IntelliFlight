@@ -30,15 +30,15 @@ int main(void) {
     spiSetup();
 //    uartSetup();
 
-        gpio_clear(GPIOA, GPIO2);
-        spi_send(SPI4, 0xEB74);
+    gpio_clear(GPIOA, GPIO2);
+    spi_send(SPI4, 0xEB74);
 //    rawTemperature=spi_read(SPI4);
-        gpio_set(GPIOA, GPIO2);
+    gpio_set(GPIOA, GPIO2);
 
-        gpio_clear(GPIOA, GPIO2);
-        spi_send(SPI4, 0x3C75);
+    gpio_clear(GPIOA, GPIO2);
+    spi_send(SPI4, 0x3C75);
 //    rawTemperature=spi_read(SPI4);
-        gpio_set(GPIOA, GPIO2);
+    gpio_set(GPIOA, GPIO2);
 
     uint16_t rawTemperature = 0x0;
     uint16_t temperature = 0x0;
