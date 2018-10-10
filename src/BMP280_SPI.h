@@ -1,12 +1,14 @@
 #ifndef _BMP280_SPI_H_
 #define _BMP280_SPI_H_
 
-#include "BMP280_memorymap.h"
+#include <BMP280_memorymap.h>
+#include <libopencm3/stm32/gpio.h>
+#include <libopencm3/stm32/spi.h>
 
 enum mode {
-    BMP280_SLEEP = 0b00,
-    BMP280_FORCED = 0b01,
-    BMP280_NORMAL = 0b11,
+    SLEEP = 0b00,
+    FORCED = 0b01,
+    NORMAL = 0b11,
 };
 
 enum osrs_t {
@@ -55,14 +57,14 @@ enum useCase {
 };
 
 BEGIN_DECLS
-void setMode(enum mode select);
-void setOsrs_t(enum osrs_t select);
-void setPsrs_t(enum psrs_t select);
-void setStatus(enum status select);
-void sett_sb(enum t_sb select);
-void setFilter(enum filter select);
-void setSpi3w(enum spi3w_en select);
-void useCase(enum useCase select);
+void setMode(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum mode select);
+void setOsrs_t(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum osrs_t select);
+void setPsrs_t(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum psrs_t select);
+void setStatus(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum status select);
+void sett_sb(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum t_sb select);
+void setFilter(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum filter select);
+void setSpi3w(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum spi3w_en select);
+void useCase(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum useCase select);
 END_DECLS
 
 #endif //_BMP280_SPI_H_
