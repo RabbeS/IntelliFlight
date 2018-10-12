@@ -15,4 +15,4 @@ if [[ $# -ne 1 ]]; then
     exit
 fi
 
-st-flash --reset write $1 0x8000000
+st-flash --BMP280_reset write $1 0x8000000

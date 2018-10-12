@@ -46,17 +46,17 @@
 #define BMP280_FORCED  0b01
 #define BMP280_NORMAL  0b11
 
-#define skipped 0b000
-#define x1      0b001
-#define x2      0b010
-#define x4      0b011
-#define x8      0b100
-#define x16     0b111
+//#define skipped 0b000
+//#define x1      0b001
+//#define x2      0b010
+//#define x4      0b011
+//#define x8      0b100
+//#define x16     0b111
 
-#define measuring   (0x1 << 3)
-#define im_update   (0x1 << 0)
-
-#define spi3w_enable    0x1
-#define spi3_disable    0x0
+//#define measuring   (0x1 << 3)
+//#define im_update   (0x1 << 0)
+//
+//#define spi3w_enable    0x1
+//#define spi3_disable    0x0
 
 #endif //_BMP280_MEMORYMAP_H

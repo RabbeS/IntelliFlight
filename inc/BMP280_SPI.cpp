@@ -1,48 +1,67 @@
-#include "BMP280_SPI.h"
-
+#include <BMP280_SPI.h>
 
 //TODO: Use memorymap to read/write a register of the BMP280
-
 //TODO: How to reduce the number methode elemnts (uint32_t gpioport, uint16_t gpios, uint32_t spi)
-void setMode(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum mode select) {
+
+uint8_t BMP280_setMode(uint8_t BMP280_register, enum mode select) {
+    BMP280_register &= ~(0b11);
+    BMP280_register |= select;
+    return BMP280_register;
+}
+
+uint8_t BMP280_setOsrs_p(uint8_t BMP280_register, enum osrs select) {
+    BMP280_register &= ~(0b111 << 2);
+    BMP280_register |= (select << 2);
+    return BMP280_register;
+}
+
+uint8_t BMP280_setOsrs_t(uint8_t BMP280_register, enum osrs select) {
+    retVal &= ~(0b111 << 5);
+    retVal |= (select << 5);
+    return BMP280_register;
+}
+
+uint8_t BMP280_sett_sb(uint8_t BMP280_register, enum t_sb select) {
+    retVal &= ~(0b111 << 5);
+    retVal |= (select << 5);
+    BMP280_register
+}
+
+uint8_t BMP280_setFilter(uint8_t BMP280_register, enum filter select) {
     gpio_clear(gpioport, gpios);
     uint16_t retVal;
-    spi_send(spi, 0xF4);
+    spi_send(spi, 0xF5);
     retVal = spi_read(spi);
-    retVal = retVal >> 4;
-    retVal = retVal & ~(0b11);
-    retVal |= select;
-    retVal = retVal << 4;
-    retVal |= 0x74;
-    spi_send(spi, retVal)
+    retVal = retVal >> 8;
+    retVal &= ~(0b111 << 2);
+    retVal |= (select << 2);
+    retVal = retVal << 8;
+    retVal |= 0x75;
+    spi_send(spi, retVal);
     gpio_set(gpioport, gpios);
 }
 
-void setOsrs_t(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum osrs_t select) {
-
+uint8_t BMP280_setSpi3w(uint8_t BMP280_register, enum spi3w_en select) {
+    gpio_clear(gpioport, gpios);
+    uint16_t retVal;
+    spi_send(spi, 0xF5);
+    retVal = spi_read(spi);
+    retVal = retVal >> 8;
+    retVal &= ~(0b1);
+    retVal |= select;
+    retVal = retVal << 8;
+    retVal |= 0x75;
+    spi_send(spi, retVal);
+    gpio_set(gpioport, gpios);
 }
 
-void setPsrs_t(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum psrs_t select) {
-
+void BMP280_reset(uint32_t gpioport, uint16_t gpios, uint32_t spi) {
+    gpio_clear(gpioport, gpios);
+    spi_send(spi, 0xB6E0);
+    gpio_set(gpioport, gpios);
 }
 
-void setStatus(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum status select) {
-
-}
-
-void sett_sb(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum t_sb select) {
-
-}
-
-void setFilter(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum filter select) {
-
-}
-
-void setSpi3w(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum spi3w_en select) {
-
-}
-
-void useCase(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum useCase select) {
+void BMP280_useCase(uint32_t gpioport, uint16_t gpios, uint32_t spi, enum useCase select) {
     switch (select) {
         case handheld_device_low_power:
             break;
