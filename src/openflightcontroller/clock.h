@@ -1,7 +1,6 @@
 #ifndef INTELLIFLIGHT_RCC_H
 #define INTELLIFLIGHT_RCC_H
 
-#include <stdint.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/cm3/systick.h>
 

@@ -11,7 +11,7 @@ endfunction()
 # -----------
 
 # LibOpenCM3 Stuff
-find_file(LIBOPENCM3_DIR "libopencm3" "${CMAKE_CURRENT_SOURCE_DIR}")
+find_file(LIBOPENCM3_DIR "lib/libopencm3" "${CMAKE_CURRENT_SOURCE_DIR}")
 if (LIBOPENCM3_DIR STREQUAL "LIBOPENCM3_DIR-NOTFOUND")
     message(FATAL_ERROR "Could not locate libopencm3 directory")
 endif ()

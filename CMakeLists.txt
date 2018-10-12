@@ -8,13 +8,13 @@ if (NOT CMAKE_TOOLCHAIN_FILE)
 endif ()
 
 if ((NOT ${CMAKE_C_COMPILER_ID} STREQUAL "GNU") OR
-    (NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") OR
-    (${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 7.2.1))
+(NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") OR
+(${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 7.2.1))
     message(WARNING "This project is targeted for ARM GCC versions 7.2.1 or above. Some features may not be supported\
      by your compiler. You are using:
      ${CMAKE_CXX_COMPILER_ID} C, version ${CMAKE_C_COMPILER_VERSION}
      ${CMAKE_CXX_COMPILER_ID} CXX, version ${CMAKE_CXX_COMPILER_VERSION}")
-endif()
+endif ()
 
 # Set the C/C++ standards
 set(CMAKE_C_STANDARD 11)
@@ -40,12 +40,15 @@ include(cmake/doxygen.cmake)
 include(cmake/compile_flags.cmake)
 
 # Collect sources into SOURCE_FILES variable and include your headers directory
-file(GLOB_RECURSE SOURCE_FILES "inc/*.c" "inc/*.cpp")
-file(GLOB_RECURSE INC_FILES "src/*.h" "src/*.tpp")
+file(GLOB_RECURSE SOURCE_FILES "src/*.c" "src/*.cpp")
+file(GLOB_RECURSE INC_FILES "include/*.h" "include/*.tpp")
 include_directories(src)
 
+# TODO: improve inclusion
+include(lib/bmp280/CMakeLists.txt)
+
 # Specify output executable
-add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES})
+add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES} ${SOURCE_FILES})
 
 # Output elf file size
 add_custom_command(

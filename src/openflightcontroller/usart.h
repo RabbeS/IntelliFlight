@@ -1,11 +1,10 @@
 #ifndef INTELLIFLIGHT_USART_H
 #define INTELLIFLIGHT_USART_H
 
-#include <stdint.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/usart.h>
-#include <libopencm3/stm32/f7/nvic.h>   //Global nvic.h is missing
+#include <libopencm3/stm32/f7/nvic.h>  //Global nvic.h is missing
 
 static void uartSetup(void) {
     /** Uart 4 Setup */

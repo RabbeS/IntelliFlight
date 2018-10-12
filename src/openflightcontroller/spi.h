@@ -1,19 +1,27 @@
 #ifndef INTELLIFLIGHT_SPI_H
 #define INTELLIFLIGHT_SPI_H
 
-#include <stdint.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/spi.h>
 
 uint32_t cr_tmp;
 
-static void spiSetup(void);
+static void spi_setup(void);
+
 uint16_t read_reg(int reg);
+
 static void write_reg(uint8_t reg, uint8_t value);
+
 uint8_t read_xyz(int16_t vecs[3]);
 
-static void spiSetup(void){
+struct spi_port {
+    uint32_t gpioport;
+    uint16_t gpios;
+    uint32_t spi;
+};
+
+static void spi_setup(void) {
     /** SPI1 */
     /* Enable the GPIO ports whose pins we are using */
     rcc_periph_clock_enable(RCC_GPIOA);
@@ -54,7 +62,8 @@ static void spiSetup(void){
     rcc_periph_clock_enable(RCC_SPI2);
 
     spi_set_dff_16bit(SPI2);
-    cr_tmp = SPI_CR1_BAUDRATE_FPCLK_DIV_32 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
+    cr_tmp =
+            SPI_CR1_BAUDRATE_FPCLK_DIV_32 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
 
     SPI_CR2(SPI2) |= SPI_CR2_SSOE;
     SPI_CR1(SPI2) = cr_tmp;

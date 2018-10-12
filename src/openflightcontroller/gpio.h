@@ -1,16 +1,15 @@
 #ifndef INTELLIFLIGHT_GPIO_H
 #define INTELLIFLIGHT_GPIO_H
 
-#include <stdint.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 
-static void gpioSetup(void);
+static void gpioSetup(void); //
 static void gpioSet(void);      //Gpio Enum z.B SD-Card 1
 static void gpioClear(void);    //-"-
 static bool gpioGet(void);      //-"-
 
-static void gpioSetup(void){
+static void gpioSetup(void) {
     /** Input Setup */
     rcc_periph_clock_enable(RCC_GPIOD);
     gpio_mode_setup(GPIOD, GPIO_MODE_INPUT, GPIO_OTYPE_PP, GPIO0 | GPIO1 | GPIO4);
@@ -29,15 +28,16 @@ static void gpioSetup(void){
     gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO13);
 }
 
-static void gpioSet(void){
+static void gpioSet(void) {
 
 }
 
-static void gpioClear(void){
+static void gpioClear(void) {
 
 }
 
-static bool gpioGet(void){
+static bool gpioGet(void) {
 
 }
+
 #endif //INTELLIFLIGHT_GPIO_H

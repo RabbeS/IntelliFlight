@@ -1,24 +1,24 @@
 #ifndef INTELLIFLIGHT
 #define INTELLIFLIGHT
 
-#include "clock.h"
-#include "src/gpio.h"
-#include "src/timer.h"
-#include "src/usart.h"
-#include "src/spi.h"
+#include "openflightcontroller/clock.h"
+#include "openflightcontroller/gpio.h"
+#include "openflightcontroller/timer.h"
+#include "openflightcontroller/usart.h"
+#include "openflightcontroller/spi.h"
 
-#include "src/BMP280_SPI.h"
+#include "lib/bmp280/include/BMP280_SPI.h"
 
 int main(void) {
     gpioSetup();
     timerSetup();
-    spiSetup();
+    spi_setup();
 //    uartSetup();
 
     uint16_t test;
     while (true) {
 //TODO: Write the temperature calculation methode
-        BMP280_setMode(GPIOA, GPIO2, SPI4, NORMAL);
+//        BMP280_set_mode(GPIOA, GPIO2, SPI4, NORMAL);
         gpio_clear(GPIOA, GPIO2);
         spi_send(SPI4, 0xF4);
         test = spi_read(SPI4);

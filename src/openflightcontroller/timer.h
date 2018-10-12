@@ -1,17 +1,16 @@
 #ifndef INTELLIFLIGHT_TIMER_H
 #define INTELLIFLIGHT_TIMER_H
 
-#include <stdint.h>
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/timer.h>
 
-static void timerSetup(void);
-static void timerEnable(void);
-static void timerDisable(void);
-static void setPeriod(void);
-static void setCompareVal(void);
-static void getCompareVal(void);
+static void timerSetup(void); //
+static void timerEnable(void); //
+static void timerDisable(void); //
+static void setPeriod(void); //
+static void setCompareVal(void); //
+static void getCompareVal(void); //
 
 static void timerSetup(void) {
     /** Timer 1 (Ch 1234) Setup */
