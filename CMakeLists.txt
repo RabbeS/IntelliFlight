@@ -45,7 +45,9 @@ file(GLOB_RECURSE INC_FILES "include/*.h" "include/*.tpp")
 include_directories(src)
 
 # TODO: improve inclusion
-include(lib/bmp280/CMakeLists.txt)
+#include(lib/bmp280/CMakeLists.txt)
+include(cmake/bmp280.cmake)
+
 
 # Specify output executable
 add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES} ${SOURCE_FILES})

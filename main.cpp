@@ -7,7 +7,7 @@
 #include "openflightcontroller/usart.h"
 #include "openflightcontroller/spi.h"
 
-#include "lib/bmp280/include/BMP280_SPI.h"
+#include <bmp280.h>
 
 int main(void) {
     gpioSetup();
@@ -20,8 +20,8 @@ int main(void) {
 //TODO: Write the temperature calculation methode
 //        BMP280_set_mode(GPIOA, GPIO2, SPI4, NORMAL);
         gpio_clear(GPIOA, GPIO2);
-        spi_send(SPI4, 0xF4);
-        test = spi_read(SPI4);
+//        spi_send(SPI4, 0xF4);
+//        test = spi_read(SPI4);
         gpio_set(GPIOA, GPIO2);
     }
 }
