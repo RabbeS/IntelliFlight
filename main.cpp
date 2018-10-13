@@ -1,13 +1,11 @@
 #ifndef INTELLIFLIGHT
 #define INTELLIFLIGHT
 
-#include "openflightcontroller/clock.h"
-#include "openflightcontroller/gpio.h"
-#include "openflightcontroller/timer.h"
-#include "openflightcontroller/usart.h"
-#include "openflightcontroller/spi.h"
+#include <bit_utils.h>
 
 #include <bmp280.h>
+
+#include <openflightcontroller/board_defines.h>
 
 int main(void) {
     gpioSetup();
@@ -15,7 +13,32 @@ int main(void) {
     spi_setup();
 //    uartSetup();
 
-    uint16_t test;
+
+
+    bmp280_com_fptr_t bmp280_read = [](uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len) -> int8_t {
+        auto payload = static_cast<uint16_t>(BIT_CONCAT(*data, 8, reg_addr));
+
+        gpio_clear(BMP280_CSS_PORT, BMP280_CSS_GPIO);   //CSS (enable chip)
+        spi_send(BMP280_SPI, payload);
+
+        while (true) {
+            uint16_t receive_buffer = spi_read(BMP280_SPI);
+            auto address = static_cast<uint8_t>(BIT_GET_SUFFIX(receive_buffer, 8));
+            auto retval = static_cast<uint8_t>(BIT_GET_PREFIX(receive_buffer, 8));
+
+            if (address == reg_addr) {
+                gpio_set(BMP280_CSS_PORT, BMP280_CSS_GPIO);     //CSS (disable chip)
+                return retval;
+            }
+        }
+    };
+
+
+    bmp280_delay_fptr_t bmp280_write = [](uint32_t period) -> void {
+
+    };
+
+
     while (true) {
 //TODO: Write the temperature calculation methode
 //        BMP280_set_mode(GPIOA, GPIO2, SPI4, NORMAL);
