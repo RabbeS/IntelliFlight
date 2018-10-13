@@ -1,3 +1,6 @@
 [submodule "libopencm3"]
 	path = lib/libopencm3
 	url = git@github.com:FSRH/libopencm3.git
+[submodule "lib/BMP280_driver"]
+	path = lib/BMP280_driver
+	url = git@github.com:BoschSensortec/BMP280_driver.git
