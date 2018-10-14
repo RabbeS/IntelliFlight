@@ -6,7 +6,6 @@
 #include "openflightcontroller/gpio.h"
 #include "openflightcontroller/timer.h"
 #include "openflightcontroller/usart.h"
-#include "openflightcontroller/spi.h"
 
 #define BMP280_CSS_PORT GPIOA
 #define BMP280_CSS_GPIO GPIO2

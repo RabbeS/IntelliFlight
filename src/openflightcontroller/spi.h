@@ -1,6 +1,8 @@
 #ifndef INTELLIFLIGHT_SPI_H
 #define INTELLIFLIGHT_SPI_H
 
+#include <openflightcontroller/board_defines.h>
+
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/spi.h>
@@ -68,7 +70,7 @@ static void spi_setup(void) {
     SPI_CR2(SPI2) |= SPI_CR2_SSOE;
     SPI_CR1(SPI2) = cr_tmp;
 
-    /** SPI4 */
+    /** BMP280_SPI */
     /* Enable the GPIO ports whose pins we are using */
     rcc_periph_clock_enable(RCC_GPIOA);
     rcc_periph_clock_enable(RCC_GPIOE);
@@ -88,12 +90,12 @@ static void spi_setup(void) {
 
     rcc_periph_clock_enable(RCC_SPI4);
 
-    spi_set_dff_16bit(SPI4);
+//    spi_set_dff_16bit(BMP280_SPI);
     cr_tmp = SPI_CR1_BAUDRATE_FPCLK_DIV_8 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
     cr_tmp |= SPI_CR1_MSBFIRST;
 
-    SPI_CR2(SPI4) |= SPI_CR2_SSOE;
-    SPI_CR1(SPI4) = cr_tmp;
+    SPI_CR2(BMP280_SPI) |= SPI_CR2_SSOE;
+    SPI_CR1(BMP280_SPI) = cr_tmp;
 }
 
 #endif //INTELLIFLIGHT_SPI_H
