@@ -19,11 +19,11 @@ int main(void) {
     bmp280_com_fptr_t bmp280_com_read = [](uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len) -> int8_t {
         gpio_clear(BMP280_CSS_PORT, BMP280_CSS_GPIO);   //CSS (enable chip)
 
-        spi_send(BMP280_SPI, reg_addr); // request data
+        spi_send(BMP280_MAG_SPI, reg_addr); // request data
 
         // write data to receive buffer
         for (int idx = 0; idx < len; idx++) {
-            data[idx] = static_cast<uint8_t>(BIT_GET_SUFFIX(spi_read(BMP280_SPI), 8));
+            data[idx] = static_cast<uint8_t>(BIT_GET_SUFFIX(spi_read(BMP280_MAG_SPI), 8));
         }
 
         gpio_set(BMP280_CSS_PORT, BMP280_CSS_GPIO);   //CSS (disable chip)
@@ -36,8 +36,8 @@ int main(void) {
 
         // write data beginning with register `reg_addr`
         for (uint8_t idx = 0; idx < len; idx++) {
-            spi_send(BMP280_SPI, reg_addr + idx);
-            spi_send(BMP280_SPI, data[idx]);
+            spi_send(BMP280_MAG_SPI, reg_addr + idx);
+            spi_send(BMP280_MAG_SPI, data[idx]);
         }
 
         gpio_set(BMP280_CSS_PORT, BMP280_CSS_GPIO);   //CSS (disable chip)

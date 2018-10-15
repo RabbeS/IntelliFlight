@@ -73,29 +73,35 @@ static void spi_setup(void) {
     /** BMP280_SPI */
     /* Enable the GPIO ports whose pins we are using */
     rcc_periph_clock_enable(RCC_GPIOA);
-    rcc_periph_clock_enable(RCC_GPIOE);
+    rcc_periph_clock_enable(RCC_GPIOE);     //TODO: enable all gpio ports in rcc.h
 
-    gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO2 | GPIO5 | GPIO6);
-    gpio_set_af(GPIOE, GPIO_AF5, GPIO2 | GPIO5 | GPIO6);
+    gpio_mode_setup(BMP280_MISO_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, BMP280_MISO_GPIO);
+    gpio_mode_setup(BMP280_MOSI_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, BMP280_MOSI_GPIO);
+    gpio_mode_setup(BMP280_SCK_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, BMP280_SCK_GPIO);
+    gpio_set_af(BMP280_MISO_PORT, BMP280_MISO_AF, BMP280_MISO_GPIO);
+    gpio_set_af(BMP280_MOSI_PORT, BMP280_MOSI_AF, BMP280_MOSI_GPIO);
+    gpio_set_af(BMP280_SCK_PORT, BMP280_SCK_AF, BMP280_SCK_GPIO);
     /* Set SCK and MOSI to otype_pp*/
-    gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO2 | GPIO6);
+    gpio_set_output_options(BMP280_MOSI_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, BMP280_MOSI_GPIO);
+    gpio_set_output_options(BMP280_SCK_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, BMP280_SCK_GPIO);
 
     /* Chip select p+t */
-    gpio_set(GPIOA, GPIO2);
-    gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO2);
+    gpio_set(BMP280_CSS_PORT, BMP280_CSS_GPIO);
+    gpio_mode_setup(BMP280_CSS_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, BMP280_CSS_GPIO);
 
     /* Chip select mag. */
-    gpio_set(GPIOA, GPIO3);
-    gpio_mode_setup(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO3);
+    gpio_set(MAG_CSS_PORT, MAG_CSS_GPIO);
+    gpio_mode_setup(MAG_CSS_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, MAG_CSS_GPIO);
 
-    rcc_periph_clock_enable(RCC_SPI4);
+    spi_reset(BMP280_MAG_SPI);
+    rcc_periph_clock_enable(BMP280_MAG_RCC);
 
-//    spi_set_dff_16bit(BMP280_SPI);
-    cr_tmp = SPI_CR1_BAUDRATE_FPCLK_DIV_8 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
-    cr_tmp |= SPI_CR1_MSBFIRST;
-
-    SPI_CR2(BMP280_SPI) |= SPI_CR2_SSOE;
-    SPI_CR1(BMP280_SPI) = cr_tmp;
+    spi_set_baudrate_prescaler(BMP280_MAG_SPI, 8);
+    spi_set_master_mode(BMP280_MAG_SPI);
+    spi_set_clock_phase_1(BMP280_MAG_SPI);
+    spi_set_clock_polarity_1(BMP280_MAG_SPI);
+    spi_send_msb_first(BMP280_MAG_SPI);
+    spi_enable(BMP280_MAG_SPI);
 }
 
 #endif //INTELLIFLIGHT_SPI_H
