@@ -51,38 +51,40 @@ int main(void) {
     };
 
     bmp280_config conf{
-                    // uint8_t os_temp
-                    // uint8_t os_pres
-                    // uint8_t odr
-                    // uint8_t filter
-            0,      // Spi3w enable
+            BMP280_OS_2X,
+            BMP280_OS_16X,
+            BMP280_ODR_125_MS,
+            BMP280_FILTER_COEFF_16,
+            BMP280_SPI3_WIRE_DISABLE,
     };
 
+    //TODO: Check if I used the correct calib param!
     bmp280_calib_param calib_param{
-            uint16_t dig_t1;
-            int16_t dig_t2;
-            int16_t dig_t3;
-            uint16_t dig_p1;
-            int16_t dig_p2;
-            int16_t dig_p3;
-            int16_t dig_p4;
-            int16_t dig_p5;
-            int16_t dig_p6;
-            int16_t dig_p7;
-            int16_t dig_p8;
-            int16_t dig_p9;
-            int32_t t_fine;
+            BMP280_DIG_T1_MSB_POS,
+            BMP280_DIG_T2_MSB_POS,
+            BMP280_DIG_T3_MSB_POS,
+            BMP280_DIG_P1_MSB_POS,
+            BMP280_DIG_P3_MSB_POS,
+            BMP280_DIG_P4_MSB_POS,
+            BMP280_DIG_P5_MSB_POS,
+            BMP280_DIG_P6_MSB_POS,
+            BMP280_DIG_P7_MSB_POS,
+            BMP280_DIG_P8_MSB_POS,
+            BMP280_DIG_P9_MSB_POS,
+            BMP280_CALIB_DATA_SIZE,
     };
+
+#define BMP280_dev_id 58
 
     bmp280_dev dfa{
-            0x58,                  // chip id
-            0,                  // dev id
-            BMP280_SPI_INTF,    // interface selection
-            bmp280_com_read,    // read fptr
-            bmp280_com_write,   // write fptr
-            bmp280_delay,       // delay_ms fptr
-            calib_param,        // calib_param struct
-            conf,               // conf struct
+            BMP280_CHIP_ID3,
+            BMP280_dev_id,
+            BMP280_SPI_INTF,
+            bmp280_com_read,
+            bmp280_com_write,
+            bmp280_delay,
+            calib_param,
+            conf,
     };
 
 

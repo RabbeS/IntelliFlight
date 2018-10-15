@@ -26,10 +26,9 @@ struct spi_port {
 static void spi_setup(void) {
     /** SPI1 */
     /* Enable the GPIO ports whose pins we are using */
-    rcc_periph_clock_enable(RCC_GPIOA);
-
     gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO5 | GPIO6 | GPIO7);
     gpio_set_af(GPIOA, GPIO_AF5, GPIO5 | GPIO6 | GPIO7);
+
     /* Set SCK and MOSI to otype_pp*/
     gpio_set_output_options(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO5 | GPIO7);
 
@@ -46,13 +45,11 @@ static void spi_setup(void) {
 
     /** SPI2 */
     /* Enable the GPIO ports whose pins we are using */
-    rcc_periph_clock_enable(RCC_GPIOB);
-    rcc_periph_clock_enable(RCC_GPIOD);
-
-    gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO14 | GPIO15);
+        gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO14 | GPIO15);
     gpio_mode_setup(GPIOD, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO3);
     gpio_set_af(GPIOB, GPIO_AF5, GPIO14 | GPIO15);
     gpio_set_af(GPIOD, GPIO_AF5, GPIO3);
+
     /* Set SCK and MOSI to otype_pp*/
     gpio_set_output_options(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO15);
     gpio_set_output_options(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO3);
@@ -72,15 +69,13 @@ static void spi_setup(void) {
 
     /** BMP280_SPI */
     /* Enable the GPIO ports whose pins we are using */
-    rcc_periph_clock_enable(RCC_GPIOA);
-    rcc_periph_clock_enable(RCC_GPIOE);     //TODO: enable all gpio ports in rcc.h
-
     gpio_mode_setup(BMP280_MISO_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, BMP280_MISO_GPIO);
     gpio_mode_setup(BMP280_MOSI_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, BMP280_MOSI_GPIO);
     gpio_mode_setup(BMP280_SCK_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, BMP280_SCK_GPIO);
     gpio_set_af(BMP280_MISO_PORT, BMP280_MISO_AF, BMP280_MISO_GPIO);
     gpio_set_af(BMP280_MOSI_PORT, BMP280_MOSI_AF, BMP280_MOSI_GPIO);
     gpio_set_af(BMP280_SCK_PORT, BMP280_SCK_AF, BMP280_SCK_GPIO);
+
     /* Set SCK and MOSI to otype_pp*/
     gpio_set_output_options(BMP280_MOSI_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, BMP280_MOSI_GPIO);
     gpio_set_output_options(BMP280_SCK_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, BMP280_SCK_GPIO);
