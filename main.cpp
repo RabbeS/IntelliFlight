@@ -36,7 +36,7 @@ int main(void) {
 
         // write data beginning with register `reg_addr`
         for (uint8_t idx = 0; idx < len; idx++) {
-            spi_send(BMP280_MAG_SPI, reg_addr + idx);
+            spi_send(BMP280_MAG_SPI, static_cast<uint16_t> (reg_addr + idx));
             spi_send(BMP280_MAG_SPI, data[idx]);
         }
 
@@ -50,48 +50,22 @@ int main(void) {
 
     };
 
-    bmp280_config conf{
-            BMP280_OS_2X,
-            BMP280_OS_16X,
-            BMP280_ODR_125_MS,
-            BMP280_FILTER_COEFF_16,
-            BMP280_SPI3_WIRE_DISABLE,
-    };
 
-    //TODO: Check if I used the correct calib param!
-    bmp280_calib_param calib_param{
-            BMP280_DIG_T1_MSB_POS,
-            BMP280_DIG_T2_MSB_POS,
-            BMP280_DIG_T3_MSB_POS,
-            BMP280_DIG_P1_MSB_POS,
-            BMP280_DIG_P3_MSB_POS,
-            BMP280_DIG_P4_MSB_POS,
-            BMP280_DIG_P5_MSB_POS,
-            BMP280_DIG_P6_MSB_POS,
-            BMP280_DIG_P7_MSB_POS,
-            BMP280_DIG_P8_MSB_POS,
-            BMP280_DIG_P9_MSB_POS,
-            BMP280_CALIB_DATA_SIZE,
-    };
+    //TODO: Check the bmp280_init methode this inclusion is correct (Bosch Sensortec), but it doesn't find the methode
+    int8_t rslt;
+    bmp280_dev bmp;
 
-#define BMP280_dev_id 58
+/* Sensor interface over SPI with native chip select line */
+    bmp.dev_id  =  0;
+    bmp.intf = BMP280_SPI_INTF;
+    bmp.read = bmp280_com_read;
+    bmp.write = bmp280_com_write;
+    bmp.delay_ms = bmp280_delay;
 
-    bmp280_dev dfa{
-            BMP280_CHIP_ID3,
-            BMP280_dev_id,
-            BMP280_SPI_INTF,
-            bmp280_com_read,
-            bmp280_com_write,
-            bmp280_delay,
-            calib_param,
-            conf,
-    };
-
-
-    uint8_t test = dfa.chip_id;
-
+    rslt = bmp280_init(&bmp);
 
     while (true) {
+
     }
 }
 

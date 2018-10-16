@@ -28,16 +28,16 @@ static void gpioSetup(void) {
     gpio_set_output_options(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO13);
 }
 
-static void gpioSet(void) {
-
-}
-
-static void gpioClear(void) {
-
-}
-
-static bool gpioGet(void) {
-
-}
+//static void gpioSet(void) {
+//
+//}
+//
+//static void gpioClear(void) {
+//
+//}
+//
+//static bool gpioGet(void) {
+//
+//}
 
 #endif //INTELLIFLIGHT_GPIO_H
