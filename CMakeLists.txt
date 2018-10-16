@@ -39,6 +39,7 @@ include(cmake/doxygen.cmake)
 # Include additional compilation flags
 include(cmake/compile_flags.cmake)
 
+#TODO: shouldn't .c and .h be changed?
 # Collect sources into SOURCE_FILES variable and include your headers directory
 file(GLOB_RECURSE SOURCE_FILES "src/*.c" "src/*.cpp")
 file(GLOB_RECURSE INC_FILES "include/*.h" "include/*.tpp")

@@ -8,6 +8,12 @@
 #include <openflightcontroller/board_defines.h>
 #include <openflightcontroller/spi.h>
 
+//TODO: outsource the handler to new file clock.c
+void sys_tick_handler(void)
+{
+    system_millis++;
+}
+
 int main(void) {
     gpioSetup();
     timerSetup();
@@ -47,7 +53,7 @@ int main(void) {
 
 
     bmp280_delay_fptr_t bmp280_delay = [](uint32_t period) -> void {
-
+        msleep(period);
     };
 
 
