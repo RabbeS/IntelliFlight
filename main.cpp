@@ -32,6 +32,7 @@ int main(void) {
 
         // write data to receive buffer
         for (int idx = 0; idx < len; idx++) {
+//TODO: here is a problem, this funktion is waiting to get an answer from the spi receive methode!
             data[idx] = static_cast<uint8_t>(BIT_GET_SUFFIX(spi_read(BMP280_MAG_SPI), 8));
         }
 
@@ -60,7 +61,6 @@ int main(void) {
     };
 
 
-    //TODO: Check the bmp280_init methode this inclusion is correct (Bosch Sensortec), but it doesn't find the methode
     int8_t rslt;
     bmp280_dev bmp;
 
@@ -71,10 +71,18 @@ int main(void) {
     bmp.write = bmp280_com_write;
     bmp.delay_ms = bmp280_delay;
 
+    bmp280_config conf;
+    conf.spi3w_en = BMP280_SPI3_WIRE_DISABLE;
+    conf.os_pres = BMP280_OS_16X;
+    conf.os_temp = BMP280_OS_2X;
+    conf.filter = BMP280_FILTER_COEFF_16;
+    conf.odr = BMP280_ODR_0_5_MS;
+
     rslt = bmp280_init(&bmp);
+    rslt = bmp280_set_config(&conf, &bmp);
+
 
     while (true) {
-
     }
 }
 
