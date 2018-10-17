@@ -3,7 +3,10 @@
 
 #include <bit_utils.h>
 
-#include <bmp280.h>
+//#include <bmp280.h>
+#include "lib/BMP280_driver/bmp280.h"
+#include "lib/BMP280_driver/bmp280.c"
+
 
 #include <openflightcontroller/board_defines.h>
 #include <openflightcontroller/spi.h>

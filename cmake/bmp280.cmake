@@ -1,4 +1,3 @@
-
 # includes BMP280 driver
 #TODO: check if the bmp280_driver is included correctly
 find_file(BMP280_DRIVER_DIR "lib/BMP280_driver" "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -8,4 +7,3 @@ endif ()
 
 link_directories(${BMP280_DRIVER_DIR})
 include_directories(SYSTEM ${BMP280_DRIVER_DIR})
-
