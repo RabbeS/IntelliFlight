@@ -8,10 +8,9 @@ static volatile uint32_t system_millis;
 
 void msleep(uint32_t delay);
 uint32_t mtime(void);
-void clock_setup(void);
-static void clockSetup(void);
+static void clock_setup(void);
 
-static void clockSetup(void) {
+static void clock_setup(void) {
     /* Setup the hse as main clock and the internal clock frequency to 168 MHz */
     rcc_clock_setup_hse(&rcc_3v3[RCC_CLOCK_3V3_168MHZ], 25);
 

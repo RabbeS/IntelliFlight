@@ -50,7 +50,7 @@ file(GLOB_RECURSE INC_FILES "include/*.h" "include/*.tpp")
 include_directories(src)
 
 # Specify output executable
-add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES} ${SOURCE_FILES} lib/BMP280_driver/bmp280.h)
+add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES} ${SOURCE_FILES} src/BMP280_driver/bmp280.h)
 
 # Output elf file size
 add_custom_command(

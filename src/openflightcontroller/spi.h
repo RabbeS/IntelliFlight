@@ -60,16 +60,15 @@ static void spi_setup(void) {
     gpio_set(SPI_HEADER_CSS_PORT, SPI_HEADER_CSS_GPIO);
     gpio_mode_setup(SPI_HEADER_CSS_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, SPI_HEADER_CSS_GPIO);
 
-    spi_reset(SPI_HEADER_SPI);
-    rcc_periph_clock_enable(SPI_HEADER_RCC);
+    spi_reset(SPI2);
+    rcc_periph_clock_enable(RCC_SPI2);
 
-    spi_set_baudrate_prescaler(SPI_HEADER_SPI, 8);
-    spi_set_master_mode(SPI_HEADER_SPI);
-    spi_set_clock_phase_1(SPI_HEADER_SPI);
-    spi_set_clock_polarity_1(SPI_HEADER_SPI);
-    spi_send_msb_first(SPI_HEADER_SPI);
-    spi_set_dff_8bit(SPI_HEADER_SPI);
-    spi_enable(SPI_HEADER_SPI);
+    spi_set_dff_8bit(SPI2);
+    cr_tmp =
+            SPI_CR1_BAUDRATE_FPCLK_DIV_32 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
+
+    SPI_CR2(SPI2) |= SPI_CR2_SSOE;
+    SPI_CR1(SPI2) |= cr_tmp;
 
     /** BMP280_SPI */
     /* Enable the GPIO ports whose pins we are using */

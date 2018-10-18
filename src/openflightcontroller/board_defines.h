@@ -28,6 +28,7 @@
 #define BMP280_MOSI_GPIO GPIO6
 #define BMP280_MOSI_AF GPIO_AF5
 
+//TODO: RCC_SPI4 und SPI werden warschnlich nicht richtig erkannt! Warum?
 #define BMP280_MAG_RCC RCC_SPI4
 #define BMP280_MAG_SPI SPI4
 

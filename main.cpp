@@ -3,11 +3,7 @@
 
 #include <bit_utils.h>
 
-//#include <bmp280.h>
-#include "lib/BMP280_driver/bmp280.h"
-#include "lib/BMP280_driver/bmp280.c"
-#include "lib/BMP280_driver/bmp280_defs.h"
-
+#include <BMP280_driver/bmp280.h>
 #include <openflightcontroller/board_defines.h>
 #include <openflightcontroller/spi.h>
 
@@ -53,40 +49,40 @@ bmp280_delay_fptr_t bmp280_delay = [](uint32_t period) -> void {
     msleep(period);
 };
 
+
+//int8_t rslt;
+//bmp280_dev bmp;
+//
+///* Sensor interface over SPI with native chip select line */
+//bmp.dev_id  =  0;
+//bmp.intf = BMP280_SPI_INTF;
+//bmp.read = bmp280_com_read;
+//bmp.write = bmp280_com_write;
+//bmp.delay_ms = bmp280_delay;
+//
+//bmp280_config conf;
+//conf.spi3w_en = BMP280_SPI3_WIRE_DISABLE;
+//conf.os_pres = BMP280_OS_16X;
+//conf.os_temp = BMP280_OS_2X;
+//conf.filter = BMP280_FILTER_COEFF_16;
+//conf.odr = BMP280_ODR_0_5_MS;
+//
+//rslt = bmp280_init(&bmp);
+//rslt = bmp280_set_config(&conf, &bmp);
+
+
 int main(void) {
     gpioSetup();
-    timerSetup();
+    clock_setup();
     spi_setup();
-//    uartSetup();
-
-    gpio_clear(GPIOD, GPIO13);
-    spi_send(SPI2, 0xFF);
-    gpio_set(GPIOD, GPIO13);
-
-
-
-    int8_t rslt;
-    bmp280_dev bmp;
-
-/* Sensor interface over SPI with native chip select line */
-    bmp.dev_id  =  0;
-    bmp.intf = BMP280_SPI_INTF;
-    bmp.read = bmp280_com_read;
-    bmp.write = bmp280_com_write;
-    bmp.delay_ms = bmp280_delay;
-
-    bmp280_config conf;
-    conf.spi3w_en = BMP280_SPI3_WIRE_DISABLE;
-    conf.os_pres = BMP280_OS_16X;
-    conf.os_temp = BMP280_OS_2X;
-    conf.filter = BMP280_FILTER_COEFF_16;
-    conf.odr = BMP280_ODR_0_5_MS;
-
-    rslt = bmp280_init(&bmp);
-    rslt = bmp280_set_config(&conf, &bmp);
-
 
     while (true) {
+        gpio_toggle(GPIOC, GPIO13);
+        msleep(100);
+        gpio_clear(SPI_HEADER_CSS_PORT, SPI_HEADER_CSS_GPIO);
+        spi_send(SPI2, 0x1C);
+//        msleep(1);
+        gpio_set(SPI_HEADER_CSS_PORT, SPI_HEADER_CSS_GPIO);
     }
 }
 
