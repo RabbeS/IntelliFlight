@@ -62,7 +62,7 @@ static void uartSetup(void) {
     gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_100MHZ, GPIO7 | GPIO8);   //evtl löschen
 
     /*Setup of the uart it selve*/
-    rcc_periph_clock_enable(RCC_UART7);     //Change libopencm3 RCC_SPI7 -> RCC_UART7
+    rcc_periph_clock_enable(RCC_USART7);     //Change libopencm3 RCC_SPI7 -> RCC_UART7
     usart_set_baudrate(UART7, 115200);
     usart_set_databits(UART7, 8);
     usart_set_stopbits(UART7, USART_STOPBITS_1);
@@ -86,7 +86,7 @@ static void uartSetup(void) {
     gpio_set_output_options(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_100MHZ, GPIO0 | GPIO1);
 
     /*Setup of the uart it selve*/
-    rcc_periph_clock_enable(RCC_UART8);     //Change libopencm3 RCC_SPI8 -> RCC_UART8
+    rcc_periph_clock_enable(RCC_USART8);     //Change libopencm3 RCC_SPI8 -> RCC_UART8
     usart_set_baudrate(UART8, 115200);
     usart_set_databits(UART8, 8);
     usart_set_stopbits(UART8, USART_STOPBITS_1);
