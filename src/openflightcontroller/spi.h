@@ -45,27 +45,33 @@ static void spi_setup(void) {
 
     /** SPI2 */
     /* Enable the GPIO ports whose pins we are using */
-        gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO14 | GPIO15);
-    gpio_mode_setup(GPIOD, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO3);
-    gpio_set_af(GPIOB, GPIO_AF5, GPIO14 | GPIO15);
-    gpio_set_af(GPIOD, GPIO_AF5, GPIO3);
+    gpio_mode_setup(SPI_HEADER_MISO_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, SPI_HEADER_MISO_GPIO);
+    gpio_mode_setup(SPI_HEADER_MOSI_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, SPI_HEADER_MOSI_GPIO);
+    gpio_mode_setup(SPI_HEADER_SCK_PORT, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, SPI_HEADER_SCK_GPIO);
+    gpio_set_af(SPI_HEADER_MISO_PORT, SPI_HEADER_MISO_AF, SPI_HEADER_MISO_GPIO);
+    gpio_set_af(SPI_HEADER_MOSI_PORT, SPI_HEADER_MOSI_AF, SPI_HEADER_MOSI_GPIO);
+    gpio_set_af(SPI_HEADER_SCK_PORT, SPI_HEADER_SCK_AF, SPI_HEADER_SCK_GPIO);
 
     /* Set SCK and MOSI to otype_pp*/
-    gpio_set_output_options(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO15);
-    gpio_set_output_options(GPIOD, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO3);
+    gpio_set_output_options(SPI_HEADER_MOSI_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, SPI_HEADER_MOSI_GPIO);
+    gpio_set_output_options(SPI_HEADER_SCK_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, SPI_HEADER_SCK_GPIO);
 
-    /* Chip select line */
-    gpio_set(GPIOD, GPIO13);
-    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO13);
+    /* Chip select spi header */
+    gpio_set(SPI_HEADER_CSS_PORT, SPI_HEADER_CSS_GPIO);
+    gpio_mode_setup(SPI_HEADER_CSS_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, SPI_HEADER_CSS_GPIO);
 
-    rcc_periph_clock_enable(RCC_SPI2);
 
-    spi_set_dff_16bit(SPI2);
-    cr_tmp =
-            SPI_CR1_BAUDRATE_FPCLK_DIV_32 | SPI_CR1_MSTR | SPI_CR1_SPE | SPI_CR1_CPHA | SPI_CR1_CPOL_CLK_TO_1_WHEN_IDLE;
+//    TODO: Spi Einstellungen überprüfen! Irgend etwas ist hier noch defekt!
+    spi_reset(SPI_HEADER_SPI);
+    rcc_periph_clock_enable(SPI_HEADER_RCC);
 
-    SPI_CR2(SPI2) |= SPI_CR2_SSOE;
-    SPI_CR1(SPI2) = cr_tmp;
+    spi_set_baudrate_prescaler(SPI_HEADER_SPI, 8);
+    spi_set_master_mode(SPI_HEADER_SPI);
+    spi_set_clock_phase_1(SPI_HEADER_SPI);
+    spi_set_clock_polarity_1(SPI_HEADER_SPI);
+    spi_send_msb_first(SPI_HEADER_SPI);
+    spi_set_dff_8bit(SPI_HEADER_SPI);
+    spi_enable(SPI_HEADER_SPI);
 
     /** BMP280_SPI */
     /* Enable the GPIO ports whose pins we are using */
@@ -96,6 +102,7 @@ static void spi_setup(void) {
     spi_set_clock_phase_1(BMP280_MAG_SPI);
     spi_set_clock_polarity_1(BMP280_MAG_SPI);
     spi_send_msb_first(BMP280_MAG_SPI);
+    spi_set_dff_8bit(BMP280_MAG_SPI);
     spi_enable(BMP280_MAG_SPI);
 }
 
