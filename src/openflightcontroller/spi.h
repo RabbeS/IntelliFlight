@@ -128,7 +128,7 @@ static void spi_setup(void) {
 
     /* b) Configure SSOE (Notes: 1 & 2 & 3). */
     //TODO: Add the zero position of SPI_CR2_SSOE to libopencm3
-    spi_cr2 |= 0x00;
+    spi_cr2 |= SPI_CR2_SSOE;
 
     /* c) Set the FRF bit if the TI protocol is required (keep NSSP bit cleared in TI mode). */
     spi_cr2 |= SPI_CR2_FRF_MOTOROLA;
@@ -140,7 +140,7 @@ static void spi_setup(void) {
 
     /* e) Configure the FRXTH bit. The RXFIFO threshold must be aligned to the read
      * access size for the SPIx_DR register. */
-    spi_cr2 |= 0x00;
+    spi_cr2 |= SPI_CR2_FRXTH;
 
     /* f) Initialize LDMA_TX and LDMA_RX bits if DMA is used in packed mode. */
     spi_cr2 |= 0x00;
@@ -153,7 +153,7 @@ static void spi_setup(void) {
     // Not needed in this examle
 
     SPI_CRCPR(header.spi) = spi_crcpr;
-    SPI_CR2(header.spi) |= SPI_CR2_SSOE;
+    SPI_CR2(header.spi) |= spi_cr2;
     SPI_CR1(header.spi) = spi_cr1;
 }
 

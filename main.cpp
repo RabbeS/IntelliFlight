@@ -24,7 +24,7 @@ void sys_tick_handler(void) {
 //
 //    // write data to receive buffer
 //    for (int idx = 0; idx < len; idx++) {
-////TODO: here is a problem, this funktion is waiting to get an answer from the spi receive methode!
+//// TODO: here is a problem, this funktion is waiting to get an answer from the spi receive methode!
 //        data[idx] = static_cast<uint8_t>(BIT_GET_SUFFIX(spi_read(/*BMP280_MAG_SPI*/SPI4), 8));
 //    }
 //
@@ -88,9 +88,7 @@ int main(void) {
         gpio_toggle(GPIOC, GPIO13);
         for (int i = 0; i < 500000; i++) {}
         gpio_clear(GPIOD, GPIO12);
-        spi_send(SPI2, 0x54);
-        spi_read(SPI2);
-        spi_send(SPI2, 0xFF);
+        spi_send8(SPI2, 0x54);
         spi_read(SPI2);
         gpio_set(GPIOD, GPIO12);
     }
