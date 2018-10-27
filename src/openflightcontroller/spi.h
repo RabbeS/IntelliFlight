@@ -36,32 +36,59 @@ struct pin {
 };
 
 static void spi_setup(void) {
+//    spi header;
+//    header.clken = RCC_SPI4;
+//    header.spi = SPI4;
+//
+//    pin mosi;
+//    mosi.clken = RCC_GPIOE;
+//    mosi.alt_func_num = GPIO_AF5;
+//    mosi.gpioport = GPIOE;
+//    mosi.gpios = GPIO6;
+//
+//    pin miso;
+//    miso.clken = RCC_GPIOE;
+//    miso.alt_func_num = GPIO_AF5;
+//    miso.gpioport = GPIOE;
+//    miso.gpios = GPIO5;
+//
+//    pin sck;
+//    sck.clken = RCC_GPIOE;
+//    sck.alt_func_num = GPIO_AF5;
+//    sck.gpioport = GPIOE;
+//    sck.gpios = GPIO2;
+//
+//    pin css;
+//    css.clken = RCC_GPIOA;
+//    css.gpioport = GPIOA;
+//    css.gpios = GPIO2;
+
     spi header;
-    header.clken = RCC_SPI4;
-    header.spi = SPI4;
+    header.clken = RCC_SPI2;
+    header.spi = SPI2;
 
     pin mosi;
-    mosi.clken = RCC_GPIOE;
+    mosi.clken = RCC_GPIOB;
     mosi.alt_func_num = GPIO_AF5;
-    mosi.gpioport = GPIOE;
-    mosi.gpios = GPIO6;
+    mosi.gpioport = GPIOB;
+    mosi.gpios = GPIO15;
 
     pin miso;
-    miso.clken = RCC_GPIOE;
+    miso.clken = RCC_GPIOB;
     miso.alt_func_num = GPIO_AF5;
-    miso.gpioport = GPIOE;
-    miso.gpios = GPIO5;
+    miso.gpioport = GPIOB;
+    miso.gpios = GPIO14;
 
     pin sck;
-    sck.clken = RCC_GPIOE;
+    sck.clken = RCC_GPIOD;
     sck.alt_func_num = GPIO_AF5;
-    sck.gpioport = GPIOE;
-    sck.gpios = GPIO2;
+    sck.gpioport = GPIOD;
+    sck.gpios = GPIO3;
 
     pin css;
-    css.clken = RCC_GPIOA;
-    css.gpioport = GPIOA;
-    css.gpios = GPIO2;
+    css.clken = RCC_GPIOD;
+    css.gpioport = GPIOD;
+    css.gpios = GPIO12;
 
     rcc_periph_clock_enable(header.clken);
     rcc_periph_clock_enable(mosi.clken);
@@ -124,7 +151,7 @@ static void spi_setup(void) {
     /* 3. Write to SPI_CR2 register: */
 
     /* a) Configure the DS[3:0] bits to select the data length for the transfer. */
-    spi_cr2 |= SPI_CR2_DS_8BIT;
+//    spi_cr2 |= SPI_CR2_DS_8BIT;
 
     /* b) Configure SSOE (Notes: 1 & 2 & 3). */
     //TODO: Add the zero position of SPI_CR2_SSOE to libopencm3
@@ -140,7 +167,7 @@ static void spi_setup(void) {
 
     /* e) Configure the FRXTH bit. The RXFIFO threshold must be aligned to the read
      * access size for the SPIx_DR register. */
-    spi_cr2 |= SPI_CR2_FRXTH;
+//    spi_cr2 |= SPI_CR2_FRXTH;
 
     /* f) Initialize LDMA_TX and LDMA_RX bits if DMA is used in packed mode. */
     spi_cr2 |= 0x00;
@@ -153,7 +180,7 @@ static void spi_setup(void) {
     // Not needed in this examle
 
     SPI_CRCPR(header.spi) = spi_crcpr;
-    SPI_CR2(header.spi) |= spi_cr2;
+    SPI_CR2(header.spi) = spi_cr2;
     SPI_CR1(header.spi) = spi_cr1;
 }
 

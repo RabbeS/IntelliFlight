@@ -85,17 +85,13 @@ int main(void) {
 //    rslt = bmp280_set_config(&conf, &bmp);
 
     while (true) {
-        gpio_clear(GPIOA, GPIO2);
-        spi_send8(SPI4, 0xF4);
-        spi_read8(SPI4);
-        gpio_clear(GPIOA, GPIO2);
+        gpio_clear(GPIOD, GPIO12);
+        spi_send(SPI2, 0xF4);
+        spi_read(SPI2);
+        gpio_set(GPIOD, GPIO12);
 
         gpio_toggle(GPIOC, GPIO13);
         for (int i = 0; i < 500000; i++) {}
-        gpio_clear(GPIOD, GPIO12);
-        spi_send8(SPI2, 0x54);
-        spi_read(SPI2);
-        gpio_set(GPIOD, GPIO12);
     }
 }
 
