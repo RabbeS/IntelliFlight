@@ -86,7 +86,7 @@ int main(void) {
 
     while (true) {
         gpio_clear(GPIOD, GPIO12);
-        spi_send(SPI2, 0xF4);
+        spi_send8(SPI2, 0xF4);
         spi_read(SPI2);
         gpio_set(GPIOD, GPIO12);
 

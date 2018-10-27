@@ -151,7 +151,7 @@ static void spi_setup(void) {
     /* 3. Write to SPI_CR2 register: */
 
     /* a) Configure the DS[3:0] bits to select the data length for the transfer. */
-//    spi_cr2 |= SPI_CR2_DS_8BIT;
+    spi_cr2 |= SPI_CR2_DS_8BIT;
 
     /* b) Configure SSOE (Notes: 1 & 2 & 3). */
     //TODO: Add the zero position of SPI_CR2_SSOE to libopencm3
@@ -167,7 +167,7 @@ static void spi_setup(void) {
 
     /* e) Configure the FRXTH bit. The RXFIFO threshold must be aligned to the read
      * access size for the SPIx_DR register. */
-//    spi_cr2 |= SPI_CR2_FRXTH;
+    spi_cr2 |= SPI_CR2_FRXTH;
 
     /* f) Initialize LDMA_TX and LDMA_RX bits if DMA is used in packed mode. */
     spi_cr2 |= 0x00;
