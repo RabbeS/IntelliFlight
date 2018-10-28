@@ -39,18 +39,17 @@ include(cmake/doxygen.cmake)
 # Include additional compilation flags
 include(cmake/compile_flags.cmake)
 
-# TODO: improve inclusion
 # Include bmp280 api
-#include(cmake/bmp280.cmake)
+include(cmake/bmp280.cmake)
 
-#TODO: shouldn't .c and .h be changed?
 # Collect sources into SOURCE_FILES variable and include your headers directory
 file(GLOB_RECURSE SOURCE_FILES "src/*.c" "src/*.cpp")
 file(GLOB_RECURSE INC_FILES "include/*.h" "include/*.tpp")
 include_directories(src)
 
 # Specify output executable
-add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES} ${SOURCE_FILES} lib/BMP280_driver/bmp280.h tmp.h)
+add_executable(${PROJECT_NAME}.elf main.cpp ${INC_FILES} ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME}.elf bmp280)
 
 # Output elf file size
 add_custom_command(
