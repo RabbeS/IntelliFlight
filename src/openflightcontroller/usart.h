@@ -16,10 +16,14 @@ static void uartSetup(void) {
 
     /*Setup of the uart it selve*/
     rcc_periph_clock_enable(RCC_UART4);
+//    USART_CR1(UART4) &= ~(0x07 << 29 | 0x01 << 1);
+//    USART_CR2(UART4) &= ~(0x0F);
+//    USART_CR3(UART4) &= ~(0x7FF << 20 | 0x01 << 16);
     usart_set_baudrate(UART4, 115200);
     usart_set_databits(UART4, 8);
     usart_set_stopbits(UART4, USART_STOPBITS_1);
-    usart_set_mode(UART4, USART_MODE_TX_RX);
+    usart_set_mode(UART4, USART_MODE_RX);
+    usart_set_mode(UART4, USART_MODE_TX);
     usart_set_parity(UART4, USART_PARITY_NONE);
     usart_set_flow_control(UART4, USART_FLOWCONTROL_NONE);
     usart_enable_halfduplex(UART4);     //Only used by the satellites
@@ -29,7 +33,7 @@ static void uartSetup(void) {
     nvic_enable_irq(NVIC_UART4_IRQ);
 
     /* Specifically enable recieve interrupts */
-//    usart_enable_rx_interrupt(UART4);
+    usart_enable_rx_interrupt(UART4);
 
     /** Uart 5 Setup */
     /*Setup GPIO pins used by uart*/
@@ -52,7 +56,7 @@ static void uartSetup(void) {
 //    nvic_enable_irq(NVIC_UART5_IRQ);
 
     /* Specifically enable recieve interrupts */
-    usart_enable_rx_interrupt(UART5);
+//    usart_enable_rx_interrupt(UART5);
 
     /** Uart 7 Setup */
     /*Setup GPIO pins used by uart*/
@@ -72,10 +76,10 @@ static void uartSetup(void) {
     usart_enable(UART7);
 
     /* Enable interrupts from the USART */
-    nvic_enable_irq(NVIC_UART7_IRQ);
+//    nvic_enable_irq(NVIC_UART7_IRQ);
 
     /* Specifically enable recieve interrupts */
-    usart_enable_rx_interrupt(UART7);
+//    usart_enable_rx_interrupt(UART7);
 //TODO: Uart interrupt 4 und 5 funktionieren nicht gemeinsam mit Uart 7
 
     /** Uart 8 Setup */
@@ -97,37 +101,10 @@ static void uartSetup(void) {
     usart_enable(UART8);
 
     /* Enable interrupts from the USART */
-    nvic_enable_irq(NVIC_UART8_IRQ);
+//    nvic_enable_irq(NVIC_UART8_IRQ);
 
     /* Specifically enable recieve interrupts */
-    usart_enable_rx_interrupt(UART8);
-}
-
-void uart4_isr(void) {
-
-}
-
-void uart5_isr(void) {
-
-}
-
-/* For interrupt handling we add a new function which is called
- * when recieve interrupts happen. The name (UART7_isr) is created
- * by the irq.json file in libopencm3 calling this interrupt for
- * UART7 'UART7', adding the suffix '_isr', and then weakly binding
- * it to the 'do nothing' interrupt function in vec.c.
- *
- * By defining it in this file the linker will override that weak
- * binding and instead bind it here, but you have to get the name
- * right or it won't work. And you'll wonder where your interrupts
- * are going.
- */
-void uart7_isr(void) {
-
-}
-
-void uart8_isr(void) {
-
+//    usart_enable_rx_interrupt(UART8);
 }
 
 #endif //INTELLIFLIGHT_USART_H

@@ -11,6 +11,33 @@
 #include <openflightcontroller/board_defines.h>
 #include <openflightcontroller/spi.h>
 
+void uart4_isr(void) {
+
+}
+
+void uart5_isr(void) {
+
+}
+
+/* For interrupt handling we add a new function which is called
+ * when recieve interrupts happen. The name (UART7_isr) is created
+ * by the irq.json file in libopencm3 calling this interrupt for
+ * UART7 'UART7', adding the suffix '_isr', and then weakly binding
+ * it to the 'do nothing' interrupt function in vec.c.
+ *
+ * By defining it in this file the linker will override that weak
+ * binding and instead bind it here, but you have to get the name
+ * right or it won't work. And you'll wonder where your interrupts
+ * are going.
+ */
+void uart7_isr(void) {
+
+}
+
+void uart8_isr(void) {
+
+}
+
 //TODO: outsource the handler to new file clock.c
 void sys_tick_handler(void) {
     system_millis++;
@@ -62,7 +89,7 @@ int main(void) {
     gpioSetup();
     timerSetup();
     spi_setup();
-//    uartSetup();
+    uartSetup();
 
     int8_t rslt;
     bmp280_dev bmp;
@@ -81,8 +108,8 @@ int main(void) {
     conf.filter = BMP280_FILTER_COEFF_16;
     conf.odr = BMP280_ODR_0_5_MS;
 
-    rslt = bmp280_init(&bmp);
-    rslt = bmp280_set_config(&conf, &bmp);
+//    rslt = bmp280_init(&bmp);
+//    rslt = bmp280_set_config(&conf, &bmp);
 
     while (true) {
 //        gpio_clear(GPIOA, GPIO2);
@@ -91,7 +118,7 @@ int main(void) {
 //        uint16_t answer2 = spi_read(SPI4);
 //        gpio_set(GPIOA, GPIO2);
 
-        int8_t answer = bmp280_get_regs(0xD0, 0x0, 0, &bmp);
+//        int8_t answer = bmp280_get_regs(0xD0, 0x0, 0, &bmp);
 
         gpio_toggle(GPIOC, GPIO13);
         for (int i = 0; i < 500000; i++) {}
