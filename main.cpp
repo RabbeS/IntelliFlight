@@ -2,21 +2,20 @@
 #define INTELLIFLIGHT
 
 #include <bit_utils.h>
-
-#include <bmp280.h>
-//#include "lib/BMP280_driver/bmp280.h"
-//#include "lib/BMP280_driver/bmp280.c"
-//#include "lib/BMP280_driver/bmp280_defs.h"
-
 #include <openflightcontroller/board_defines.h>
+#include <bmp280.h>
 #include <openflightcontroller/spi.h>
 
-void uart4_isr(void) {
+int counterIsr = 0;
 
+void uart4_isr(void) {
+    counterIsr++;
+    uint32_t reg32 = USART_RDR(UART4);
 }
 
 void uart5_isr(void) {
-
+    counterIsr++;
+    uint32_t reg32 = USART_RDR(UART5);
 }
 
 /* For interrupt handling we add a new function which is called
@@ -31,11 +30,13 @@ void uart5_isr(void) {
  * are going.
  */
 void uart7_isr(void) {
-
+    counterIsr++;
+    uint32_t reg32 = USART_RDR(UART7);
 }
 
 void uart8_isr(void) {
-
+    counterIsr++;
+    uint32_t reg32 = USART_RDR(UART8);
 }
 
 //TODO: outsource the handler to new file clock.c
@@ -86,8 +87,9 @@ bmp280_delay_fptr_t bmp280_delay = [](uint32_t period) -> void {
 };
 
 int main(void) {
+    clockSetup();
     gpioSetup();
-    timerSetup();
+//    timerSetup();
     spi_setup();
     uartSetup();
 
@@ -122,6 +124,9 @@ int main(void) {
 
         gpio_toggle(GPIOC, GPIO13);
         for (int i = 0; i < 500000; i++) {}
+        if(counterIsr >= 5){
+            gpio_set(GPIOE, GPIO14);
+        }
     }
 }
 
