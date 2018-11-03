@@ -9,9 +9,9 @@
 static void uartSetup(void) {
     /** Uart 4 Setup */
     /*Setup GPIO pins used by uart*/
-    gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO0 | GPIO1);
+    gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO0 | GPIO1);
     gpio_set_af(GPIOA, GPIO_AF8, GPIO0 | GPIO1);
-    gpio_set_output_options(GPIOA, GPIO_PUPD_PULLDOWN, GPIO_OSPEED_100MHZ, GPIO0 | GPIO1);
+    gpio_set_output_options(GPIOA, GPIO_PUPD_PULLUP, GPIO_OSPEED_100MHZ, GPIO0 | GPIO1);
 
     /*Setup of the uart it selve*/
     rcc_periph_clock_enable(RCC_UART4);
@@ -32,9 +32,9 @@ static void uartSetup(void) {
 
     /** Uart 5 Setup */
     /*Setup GPIO pins used by uart*/
-    gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO12 | GPIO13);
+    gpio_mode_setup(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO12 | GPIO13);
     gpio_set_af(GPIOB, GPIO_AF8, GPIO12 | GPIO13);
-    gpio_set_output_options(GPIOB, GPIO_PUPD_PULLDOWN, GPIO_OSPEED_100MHZ, GPIO12 | GPIO13);
+    gpio_set_output_options(GPIOB, GPIO_PUPD_PULLUP, GPIO_OSPEED_100MHZ, GPIO12 | GPIO13);
 
     /*Setup of the uart it selve*/
     rcc_periph_clock_enable(RCC_UART5);
@@ -54,9 +54,9 @@ static void uartSetup(void) {
 
     /** Uart 7 Setup */
     /*Setup GPIO pins used by uart*/
-    gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO7 | GPIO8);     //evtl GPIO_PUPD_NONE
+    gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO7 | GPIO8);     //evtl GPIO_PUPD_NONE
     gpio_set_af(GPIOE, GPIO_AF8, GPIO7 | GPIO8);
-    gpio_set_output_options(GPIOE, GPIO_PUPD_PULLDOWN, GPIO_OSPEED_100MHZ, GPIO7 | GPIO8);   //evtl löschen
+    gpio_set_output_options(GPIOE, GPIO_PUPD_PULLUP, GPIO_OSPEED_100MHZ, GPIO7 | GPIO8);   //evtl löschen
 
     /*Setup of the uart it selve*/
     rcc_periph_clock_enable(RCC_USART7);     //Change libopencm3 RCC_SPI7 -> RCC_UART7
@@ -76,9 +76,9 @@ static void uartSetup(void) {
 
     /** Uart 8 Setup */
     /*Setup GPIO pins used by uart*/
-    gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_PULLDOWN, GPIO0 | GPIO1);
+    gpio_mode_setup(GPIOE, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO0 | GPIO1);
     gpio_set_af(GPIOE, GPIO_AF8, GPIO0 | GPIO1);
-    gpio_set_output_options(GPIOE, GPIO_PUPD_PULLDOWN, GPIO_OSPEED_100MHZ, GPIO0 | GPIO1);
+    gpio_set_output_options(GPIOE, GPIO_PUPD_PULLUP, GPIO_OSPEED_100MHZ, GPIO0 | GPIO1);
 
     /*Setup of the uart it selve*/
     rcc_periph_clock_enable(RCC_USART8);     //Change libopencm3 RCC_SPI8 -> RCC_UART8
